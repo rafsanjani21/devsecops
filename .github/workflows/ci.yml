@@ -13,20 +13,21 @@ jobs:
     name: Unit Test (pytest)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: Install dependencies
-        working-directory: tugas-project-digital-skola-devops
         run: |
+          python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install -r dev-requirements.txt
 
       - name: Run pytest
-        working-directory: tugas-project-digital-skola-devops
         env:
           PYTHONPATH: .
         run: pytest
@@ -38,7 +39,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: Install Bandit
         run: pip install bandit
@@ -53,7 +54,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: Install pip-audit
         run: pip install pip-audit
@@ -95,8 +96,9 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t rafsanjani21/notes-app:latest \
-                       -t rafsanjani21/notes-app:${IMAGE_TAG} .
+          docker build \
+            -t rafsanjani21/notes-app:latest \
+            -t rafsanjani21/notes-app:${IMAGE_TAG} .
 
       - name: Push Docker image
         run: |
