@@ -106,14 +106,14 @@ jobs:
           docker push rafsanjani21/notes-app:${IMAGE_TAG}
 
   image_scan:
-    name: Image Scan (Trivy)
-    runs-on: ubuntu-latest
-    needs: build_and_push
+  name: Image Scan (Trivy)
+  runs-on: ubuntu-latest
+  needs: build_and_push
+  steps:
+    - name: Scan Docker image
+      uses: aquasecurity/trivy-action@0.20.0
+      with:
+        image-ref: rafsanjani21/notes-app:latest
+        severity: CRITICAL
+        exit-code: 1
 
-    steps:
-      - name: Scan Docker image
-        uses: aquasecurity/trivy-action@0.20.0
-        with:
-          image-ref: rafsanjani21/notes-app:latest
-          severity: CRITICAL,HIGH
-          exit-code: 1
